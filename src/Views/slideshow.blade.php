@@ -1,0 +1,1 @@
+<div class="slideshow" is="slideshow" v-bind="{slideshow: {{ $slideshow }}}"></div>

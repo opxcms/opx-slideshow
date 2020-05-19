@@ -2,6 +2,7 @@
 
 namespace Modules\Opx\Slideshow\Models;
 
+use Core\Traits\Model\DataAttribute;
 use Core\Traits\Model\Publishing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,9 +12,12 @@ use Modules\Opx\Slideshow\OpxSlideshow;
 class Slideshow extends Model
 {
     use SoftDeletes,
-        Publishing;
+        Publishing,
+        DataAttribute;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+    protected $casts = ['data' => 'array'];
 
     public function slides(): HasMany
     {
@@ -38,6 +42,10 @@ class Slideshow extends Model
 
         // Convert data field
         $data = $this->getAttribute('data');
+
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
 
         // format slides
         $slides = [];

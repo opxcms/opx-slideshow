@@ -2,6 +2,7 @@
 
 namespace Modules\Opx\Slideshow\Models;
 
+use Core\Traits\Model\DataAttribute;
 use Core\Traits\Model\GetContent;
 use Core\Traits\Model\Publishing;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +14,8 @@ class Slide extends Model
 {
     use SoftDeletes,
         Publishing,
-        GetContent;
+        GetContent,
+        DataAttribute;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at', 'publish_start', 'publish_end'];
 
@@ -66,6 +68,11 @@ class Slide extends Model
         }
         // Convert data field
         $data = $this->getAttribute('data');
+
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
+
         $attributes = array_merge($attributes, $data ?? []);
 
         return $attributes;

@@ -3,10 +3,10 @@
 namespace Modules\Opx\Slideshow\Controllers;
 
 use Core\Http\Controllers\ApiActionsController;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Exception;
+use JsonException;
 use Modules\Opx\Slideshow\Models\Slide;
 
 class ManageSlideActionsApiController extends ApiActionsController
@@ -57,6 +57,7 @@ class ManageSlideActionsApiController extends ApiActionsController
      * @param Request $request
      *
      * @return JsonResponse
+     * @throws JsonException
      */
     public function postEnable(Request $request): JsonResponse
     {

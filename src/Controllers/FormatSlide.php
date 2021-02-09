@@ -3,6 +3,7 @@
 namespace Modules\Opx\Slideshow\Controllers;
 
 use Modules\Opx\Slideshow\Models\Slide;
+use Modules\Opx\Slideshow\Models\Slideshow;
 
 trait FormatSlide
 {
@@ -31,11 +32,15 @@ trait FormatSlide
             $props[] = 'datetime:' . $slide->getAttribute('publish_end')->toIso8601String();
         }
 
+        $slide->loadMissing('slideshow');
+        /** @var Slideshow $slideshow */
+        $slideshow = $slide->getRelation('slideshow');
+
         return [
             'id' => $slide->getAttribute('id'),
             'title' => $slide->getAttribute('title'),
             'subtitle' => null,
-            'description' => '(' . $slide->slideshow->name . ')',
+            'description' => '(' . $slideshow->getAttribute('name') . ')',
             'properties' => $props,
             'enabled' => $slide->isPublished(),
             'deleted' => $slide->getAttribute('deleted_at') !== null,

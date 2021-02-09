@@ -6,6 +6,7 @@ use Core\Foundation\Templater\Templater;
 use Core\Http\Controllers\APIFormController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use JsonException;
 use Modules\Opx\Slideshow\Models\Slideshow;
 use Modules\Opx\Slideshow\OpxSlideshow;
 
@@ -98,6 +99,7 @@ class ManageSlideshowEditApiController extends APIFormController
      * @param Request $request
      *
      * @return  JsonResponse
+     * @throws JsonException
      */
     public function postCreate(Request $request): JsonResponse
     {
@@ -135,6 +137,7 @@ class ManageSlideshowEditApiController extends APIFormController
      * @param Request $request
      *
      * @return  JsonResponse
+     * @throws JsonException
      */
     public function postSave(Request $request): JsonResponse
     {
@@ -176,6 +179,7 @@ class ManageSlideshowEditApiController extends APIFormController
      * @param $values
      *
      * @return  Slideshow
+     * @throws JsonException
      */
     protected function updateSlideshowData(Slideshow $slideshow, $values): Slideshow
     {

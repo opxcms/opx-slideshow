@@ -6,6 +6,7 @@ use Core\Foundation\Templater\Templater;
 use Core\Http\Controllers\APIFormController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use JsonException;
 use Modules\Opx\Slideshow\Models\Slide;
 use Modules\Opx\Slideshow\Models\Slideshow;
 use Modules\Opx\Slideshow\OpxSlideshow;
@@ -108,6 +109,7 @@ class ManageSlideEditApiController extends APIFormController
      * @param Request $request
      *
      * @return  JsonResponse
+     * @throws JsonException
      */
     public function postCreate(Request $request): JsonResponse
     {
@@ -145,6 +147,7 @@ class ManageSlideEditApiController extends APIFormController
      * @param Request $request
      *
      * @return  JsonResponse
+     * @throws JsonException
      */
     public function postSave(Request $request): JsonResponse
     {
@@ -186,6 +189,7 @@ class ManageSlideEditApiController extends APIFormController
      * @param $values
      *
      * @return  Slide
+     * @throws JsonException
      */
     protected function updateSlideData(Slide $slide, $values): Slide
     {
@@ -216,10 +220,11 @@ class ManageSlideEditApiController extends APIFormController
      * @param Request $request
      *
      * @return  JsonResponse
+     * @throws JsonException
      */
     public function postSaveImage(Request $request): JsonResponse
     {
-        return $this->storeImageFromRequest($request, OpxSlideshow::getTemplateFileName('slide'));
+        return $this->storeFilesFromRequest($request, OpxSlideshow::getTemplateFileName('slide'));
     }
 
     /**
@@ -228,9 +233,10 @@ class ManageSlideEditApiController extends APIFormController
      * @param Request $request
      *
      * @return  JsonResponse
+     * @throws JsonException
      */
     public function postCreateImage(Request $request): JsonResponse
     {
-        return $this->storeImageFromRequest($request, OpxSlideshow::getTemplateFileName('slide'));
+        return $this->storeFilesFromRequest($request, OpxSlideshow::getTemplateFileName('slide'));
     }
 }

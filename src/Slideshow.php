@@ -3,6 +3,7 @@
 namespace Modules\Opx\Slideshow;
 
 use Core\Foundation\Module\BaseModule;
+use JsonException;
 use Modules\Opx\Slideshow\Models\Slideshow as SlideshowModel;
 
 class Slideshow extends BaseModule
@@ -19,6 +20,7 @@ class Slideshow extends BaseModule
      * @param string $alias
      *
      * @return  mixed|null
+     * @throws JsonException
      */
     public function make(string $alias)
     {

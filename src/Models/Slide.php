@@ -8,6 +8,7 @@ use Core\Traits\Model\Publishing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use JsonException;
 use Modules\Opx\Image\OpxImage;
 
 class Slide extends Model
@@ -41,6 +42,7 @@ class Slide extends Model
      * @param int $imageQuality
      *
      * @return  array
+     * @throws JsonException
      */
     public function format(int $imageSize, int $imageQuality): array
     {
@@ -55,7 +57,7 @@ class Slide extends Model
         $image = $this->getAttribute('image');
         if ($image !== null && !is_array($image)) {
             try {
-                $image = json_decode($image, true);
+                $image = json_decode($image, true, 512, JSON_THROW_ON_ERROR);
             } catch (\Exception $e) {
                 $image = null;
             }
@@ -70,7 +72,7 @@ class Slide extends Model
         $data = $this->getAttribute('data');
 
         if (is_string($data)) {
-            $data = json_decode($data, true);
+            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         }
 
         $attributes = array_merge($attributes, $data ?? []);

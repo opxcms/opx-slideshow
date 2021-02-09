@@ -7,6 +7,7 @@ use Core\Traits\Model\Publishing;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use JsonException;
 use Modules\Opx\Slideshow\OpxSlideshow;
 
 class Slideshow extends Model
@@ -24,6 +25,10 @@ class Slideshow extends Model
         return self::addPublishingToQuery($this->hasMany(Slide::class, 'slideshow_id')->orderBy('order'));
     }
 
+    /**
+     * @return mixed
+     * @throws JsonException
+     */
     public function render()
     {
         $layout = $this->getAttribute('layout') ?? 'slideshow';
@@ -31,9 +36,13 @@ class Slideshow extends Model
 
         $this->loadMissing('slides');
 
-        return OpxSlideshow::view($layout)->with(['slideshow' => json_encode($this->format())]);
+        return OpxSlideshow::view($layout)->with(['slideshow' => json_encode($this->format(), JSON_THROW_ON_ERROR)]);
     }
 
+    /**
+     * @return array
+     * @throws JsonException
+     */
     public function format(): array
     {
         $attributes = [
@@ -44,7 +53,7 @@ class Slideshow extends Model
         $data = $this->getAttribute('data');
 
         if (is_string($data)) {
-            $data = json_decode($data, true);
+            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         }
 
         // format slides
